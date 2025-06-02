@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ask About My PDFs</title>
+</head>
+<body>
+  <h1>PDF Chatbot</h1>
+  <input id="question" type="text" placeholder="Ask your question..." />
+  <button onclick="ask()">Ask</button>
+  <pre id="response"></pre>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById("question").value;
+      const responseEl = document.getElementById("response");
+      responseEl.innerText = "Thinking...";
+
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+
+      const data = await res.json();
+      responseEl.innerText = data.answer;
+    }
+  </script>
+</body>
+</html>
